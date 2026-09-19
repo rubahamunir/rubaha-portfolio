@@ -3,27 +3,29 @@
 ========================================================= */
 
 :root {
+  /* Personal brand colors — LinkedIn palette */
   --primary: #9C3044;
   --primary-light: #B15763;
   --secondary: #C78086;
   --soft: #DAA6AA;
   --pale: #EBCBCE;
 
-  --background: #FAF8F8;
+  /* Neutrals */
+  --bg: #FAF8F8;
   --surface: #FFFFFF;
   --text: #202124;
   --muted: #626262;
   --border: #E8DADC;
 
+  /* Dark section */
   --dark: #24191C;
 
-    --shadow:
-        0 20px 50px rgba(20, 40, 42, 0.08);
+  /* Effects */
+  --shadow: 0 10px 30px rgba(36, 25, 28, 0.08);
+  --shadow-hover: 0 16px 40px rgba(36, 25, 28, 0.12);
 
-    --radius: 18px;
-
-    --max-width: 1180px;
-
+  --radius: 12px;
+  --max-width: 1180px;
 }
 
 
