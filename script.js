@@ -1,361 +1,551 @@
 /* =========================================================
-   MOBILE NAVIGATION
-========================================================= */
-
-const menuToggle = document.getElementById("menuToggle");
-const navLinks = document.getElementById("navLinks");
-
-menuToggle.addEventListener("click", () => {
-
-    const isOpen = navLinks.classList.toggle("open");
-
-    menuToggle.setAttribute(
-        "aria-expanded",
-        isOpen
-    );
-
-});
-
-
-/* Close mobile navigation when a link is clicked */
-
-document.querySelectorAll(".nav-link").forEach(link => {
-
-    link.addEventListener("click", () => {
-
-        navLinks.classList.remove("open");
-
-        menuToggle.setAttribute(
-            "aria-expanded",
-            "false"
-        );
-
-    });
-
-});
+   RUBAHA MUNIR PORTFOLIO
+   Main JavaScript
+   ========================================================= */
 
 
 /* =========================================================
-   ACTIVE NAVIGATION
-========================================================= */
+   MOBILE NAVIGATION
+   ========================================================= */
 
-const sections = document.querySelectorAll("section[id]");
-const navigationLinks = document.querySelectorAll(".nav-link");
+const menuToggle = document.getElementById("menuToggle");
+const mainNav = document.getElementById("mainNav");
 
-const sectionObserver = new IntersectionObserver(
+if (menuToggle && mainNav) {
 
-    entries => {
+  menuToggle.addEventListener("click", () => {
 
-        entries.forEach(entry => {
+    const isOpen =
+      mainNav.classList.toggle("open");
 
-            if (entry.isIntersecting) {
+    menuToggle.setAttribute(
+      "aria-expanded",
+      isOpen
+    );
 
-                navigationLinks.forEach(link => {
+  });
 
-                    link.classList.remove("active");
 
-                    if (
-                        link.getAttribute("href") ===
-                        `#${entry.target.id}`
-                    ) {
+  /* Close mobile menu after clicking a link */
 
-                        link.classList.add("active");
+  mainNav.querySelectorAll("a").forEach((link) => {
 
-                    }
+    link.addEventListener("click", () => {
 
-                });
+      mainNav.classList.remove("open");
 
-            }
+      menuToggle.setAttribute(
+        "aria-expanded",
+        "false"
+      );
 
-        });
+    });
 
-    },
+  });
 
-    {
-        rootMargin: "-35% 0px -55% 0px"
-    }
+}
 
-);
 
-sections.forEach(section => {
+/* =========================================================
+   CURRENT YEAR
+   ========================================================= */
 
-    sectionObserver.observe(section);
+const yearElement =
+  document.getElementById("year");
 
-});
+if (yearElement) {
+
+  yearElement.textContent =
+    new Date().getFullYear();
+
+}
 
 
 /* =========================================================
    SCROLL REVEAL
-========================================================= */
+   ========================================================= */
 
 const revealElements =
-    document.querySelectorAll(".reveal");
+  document.querySelectorAll(".reveal");
 
-const revealObserver = new IntersectionObserver(
 
-    entries => {
+if ("IntersectionObserver" in window) {
 
-        entries.forEach(entry => {
+  const revealObserver =
+    new IntersectionObserver(
+      (entries, observer) => {
 
-            if (entry.isIntersecting) {
+        entries.forEach((entry) => {
 
-                entry.target.classList.add("visible");
+          if (entry.isIntersecting) {
 
-                revealObserver.unobserve(
-                    entry.target
-                );
+            entry.target.classList.add("visible");
 
-            }
+            observer.unobserve(
+              entry.target
+            );
+
+          }
 
         });
 
-    },
-
-    {
+      },
+      {
         threshold: 0.12
-    }
+      }
+    );
 
-);
 
-revealElements.forEach(element => {
+  revealElements.forEach((element) => {
 
     revealObserver.observe(element);
 
-});
+  });
+
+} else {
+
+  revealElements.forEach((element) => {
+
+    element.classList.add("visible");
+
+  });
+
+}
 
 
 /* =========================================================
-   PROJECT MODAL
-========================================================= */
+   ACTIVE NAVIGATION
+   ========================================================= */
 
-const modal =
-    document.getElementById("projectModal");
+const sections =
+  document.querySelectorAll("main section[id]");
 
-const modalBody =
-    document.getElementById("modalBody");
+const navLinks =
+  document.querySelectorAll(".main-nav a");
 
-const modalClose =
-    document.getElementById("modalClose");
 
-const modalOverlay =
-    document.getElementById("modalOverlay");
+if ("IntersectionObserver" in window) {
 
+  const sectionObserver =
+    new IntersectionObserver(
+      (entries) => {
+
+        entries.forEach((entry) => {
+
+          if (!entry.isIntersecting) {
+            return;
+          }
+
+
+          const currentId =
+            entry.target.getAttribute("id");
+
+
+          navLinks.forEach((link) => {
+
+            const linkTarget =
+              link.getAttribute("href");
+
+
+            link.classList.toggle(
+              "active",
+              linkTarget === `#${currentId}`
+            );
+
+          });
+
+        });
+
+      },
+      {
+        rootMargin:
+          "-25% 0px -65% 0px"
+      }
+    );
+
+
+  sections.forEach((section) => {
+
+    sectionObserver.observe(section);
+
+  });
+
+}
+
+
+/* =========================================================
+   PROJECT DATA
+   ========================================================= */
 
 const projectData = {
 
-    esrd: {
+  esrd: {
 
-        label: "CLINICAL RESEARCH",
+    label: "01 / CLINICAL RESEARCH",
 
-        title:
-            "Factors Responsible for Kidney Failure among ESRD Patients",
+    title:
+      "Factors Responsible for Kidney Failure among ESRD Patients",
 
-        description:
-            "Academic research investigating various factors associated with kidney failure among end-stage renal disease patients in Sargodha, Pakistan.",
+    description:
+      "A questionnaire-based research project investigating various factors responsible for kidney failure among patients with end-stage renal disease in Sargodha, Pakistan.",
 
-        overview:
-            "The study involved development and use of a structured questionnaire to investigate potential contributing factors among ESRD patients. The research process included questionnaire development, English and Urdu translation, face and content validity, pilot work, data collection, and statistical analysis.",
+    details: [
 
-        methods:
-            "Data analysis was conducted using IBM SPSS. The analytical work included descriptive statistics and association testing, including chi-square analysis and effect-size interpretation using Cramer's V, along with appropriate non-parametric approaches where applicable.",
+      {
+        title: "Research focus",
+        text:
+          "Investigation of demographic, lifestyle, clinical, medication-related, dietary, and environmental factors associated with ESRD."
+      },
 
-        tags: [
-            "ESRD",
-            "Clinical Research",
-            "Questionnaire",
-            "SPSS",
-            "Biostatistics"
-        ]
+      {
+        title: "Sample",
+        text:
+          "257 ESRD patients were included in the final collected sample."
+      },
 
-    },
+      {
+        title: "Approach",
+        text:
+          "Team-designed questionnaire with English and Urdu versions, followed by validity assessment and pilot work."
+      },
 
+      {
+        title: "Analysis",
+        text:
+          "Statistical analysis performed using IBM SPSS, including descriptive analysis, chi-square testing, Cramer's V, and non-parametric methods."
+      }
 
-    nlc: {
+    ]
 
-        label: "PHARMACEUTICAL TECHNOLOGY",
-
-        title:
-            "Thiol-Modified Mucoadhesive Nanostructured Lipid Carriers",
-
-        description:
-            "A pharmaceutical technology project exploring thiol-modified mucoadhesive nanostructured lipid carriers as an approach to improve drug delivery and bioavailability.",
-
-        overview:
-            "The project focused on formulation and characterization of thiol-modified mucoadhesive nanostructured lipid carriers for a BCS Class IV drug. The work connected formulation design with concepts of lipid-based drug delivery, mucoadhesion, and enhanced bioavailability.",
-
-        methods:
-            "The formulation work involved preparation of NLC systems and characterization concepts including particle size, polydispersity index, and zeta potential. The project also involved interpretation of formulation-related pharmaceutical properties.",
-
-        tags: [
-            "NLC",
-            "Drug Delivery",
-            "Mucoadhesion",
-            "BCS Class IV",
-            "Particle Size",
-            "PDI",
-            "Zeta Potential"
-        ]
-
-    },
+  },
 
 
-    alzheimer: {
+  nlc: {
 
-        label: "REVIEW RESEARCH",
+    label:
+      "02 / PHARMACEUTICAL TECHNOLOGY",
 
-        title:
-            "Engineered Exosomal Non-Coding RNAs in Alzheimer's Disease",
+    title:
+      "Thiol-Modified Mucoadhesive Nanostructured Lipid Carriers",
 
-        description:
-            "A review-focused research project exploring engineered exosomal non-coding RNAs for Alzheimer's disease diagnosis and therapeutic cargo delivery.",
+    description:
+      "Pharmaceutical technology research focused on thiol-modified mucoadhesive nanostructured lipid carriers as a drug-delivery approach.",
 
-        overview:
-            "The review connects Alzheimer's disease biomarkers with emerging liquid biopsy approaches and engineered extracellular vesicles. It considers blood, cerebrospinal fluid and other potential biological sources, exosomal cargo, non-coding RNAs, and emerging biosensing strategies.",
+    details: [
 
-        methods:
-            "The research examined approaches including exosome isolation and characterization, biomarker detection, biosensor technologies, therapeutic cargo engineering, and challenges such as isolation heterogeneity, cargo quantification, biodistribution, immunogenicity, and batch reproducibility.",
+      {
+        title: "Research area",
+        text:
+          "Nanostructured lipid carrier-based drug delivery and pharmaceutical formulation."
+      },
 
-        tags: [
-            "Alzheimer's Disease",
-            "Exosomes",
-            "ncRNA",
-            "Liquid Biopsy",
-            "Biosensors",
-            "Drug Delivery"
-        ]
+      {
+        title: "Core concept",
+        text:
+          "Development of a thiol-modified mucoadhesive lipid-based delivery system."
+      },
 
-    }
+      {
+        title: "Characterization",
+        text:
+          "Relevant characterization concepts include particle size, polydispersity index, and zeta potential."
+      },
+
+      {
+        title: "Academic focus",
+        text:
+          "Understanding formulation design, drug delivery behavior, and physicochemical characterization."
+      }
+
+    ]
+
+  },
+
+
+  alzheimer: {
+
+    label:
+      "03 / REVIEW RESEARCH",
+
+    title:
+      "Engineered Exosomal Non-Coding RNAs in Alzheimer's Disease",
+
+    description:
+      "A review-focused research project examining engineered exosomal non-coding RNAs for Alzheimer's disease diagnosis and therapeutic cargo delivery.",
+
+    details: [
+
+      {
+        title: "Disease focus",
+        text:
+          "Alzheimer's disease diagnosis, biomarkers, and therapeutic approaches."
+      },
+
+      {
+        title: "Liquid biopsy",
+        text:
+          "Exploration of blood, cerebrospinal fluid, saliva, tears, and urine as potential liquid-biopsy sources."
+      },
+
+      {
+        title: "Exosomal cargo",
+        text:
+          "Focus on exosomes and non-coding RNAs as potential diagnostic biomarkers and therapeutic cargo."
+      },
+
+      {
+        title: "Key considerations",
+        text:
+          "Isolation heterogeneity, cargo quantification, biodistribution, immunogenicity, and batch reproducibility are important translational considerations."
+      }
+
+    ]
+
+  }
 
 };
 
 
-function openProject(projectKey) {
+/* =========================================================
+   PROJECT MODAL
+   ========================================================= */
 
-    const project =
-        projectData[projectKey];
+const projectModal =
+  document.getElementById("projectModal");
 
-    if (!project) return;
+const modalOverlay =
+  document.getElementById("modalOverlay");
+
+const modalClose =
+  document.getElementById("modalClose");
+
+const modalLabel =
+  document.getElementById("modalLabel");
+
+const modalTitle =
+  document.getElementById("modalTitle");
+
+const modalDescription =
+  document.getElementById("modalDescription");
+
+const modalDetails =
+  document.getElementById("modalDetails");
 
 
-    modalBody.innerHTML = `
+function openProjectModal(projectKey) {
 
-        <span class="section-label">
-            ${project.label}
-        </span>
+  const project =
+    projectData[projectKey];
 
-        <h2>
-            ${project.title}
-        </h2>
+  if (!project) {
+    return;
+  }
 
-        <p>
-            ${project.description}
-        </p>
 
-        <div class="modal-tags">
+  modalLabel.textContent =
+    project.label;
 
-            ${project.tags
-                .map(tag => `<span>${tag}</span>`)
-                .join("")
-            }
 
-        </div>
+  modalTitle.textContent =
+    project.title;
 
-        <h3>
-            Research Overview
-        </h3>
 
-        <p>
-            ${project.overview}
-        </p>
+  modalDescription.textContent =
+    project.description;
 
-        <h3>
-            Approach
-        </h3>
 
-        <p>
-            ${project.methods}
-        </p>
+  modalDetails.innerHTML = "";
 
+
+  project.details.forEach((detail) => {
+
+    const detailElement =
+      document.createElement("div");
+
+    detailElement.className =
+      "modal-detail";
+
+
+    detailElement.innerHTML = `
+      <strong>${detail.title}</strong>
+      <span>${detail.text}</span>
     `;
 
 
-    modal.classList.add("active");
-
-    modal.setAttribute(
-        "aria-hidden",
-        "false"
+    modalDetails.appendChild(
+      detailElement
     );
 
-    document.body.style.overflow = "hidden";
+  });
+
+
+  projectModal.classList.add("active");
+
+  projectModal.setAttribute(
+    "aria-hidden",
+    "false"
+  );
+
+
+  document.body.classList.add(
+    "modal-open"
+  );
+
+
+  modalClose.focus();
 
 }
 
+
+function closeProjectModal() {
+
+  projectModal.classList.remove(
+    "active"
+  );
+
+  projectModal.setAttribute(
+    "aria-hidden",
+    "true"
+  );
+
+
+  document.body.classList.remove(
+    "modal-open"
+  );
+
+}
+
+
+/* Open project buttons */
 
 document
-    .querySelectorAll("[data-project]")
-    .forEach(button => {
+  .querySelectorAll(".project-card")
+  .forEach((card) => {
 
-        button.addEventListener(
-            "click",
-            () => {
+    const button =
+      card.querySelector(".project-open");
 
-                openProject(
-                    button.dataset.project
-                );
-
-            }
-        );
-
-    });
+    const projectKey =
+      card.dataset.project;
 
 
-function closeModal() {
+    if (button) {
 
-    modal.classList.remove("active");
+      button.addEventListener(
+        "click",
+        () => {
 
-    modal.setAttribute(
-        "aria-hidden",
-        "true"
-    );
+          openProjectModal(
+            projectKey
+          );
 
-    document.body.style.overflow = "";
+        }
+      );
+
+    }
+
+  });
+
+
+/* Close button */
+
+if (modalClose) {
+
+  modalClose.addEventListener(
+    "click",
+    closeProjectModal
+  );
 
 }
 
 
-modalClose.addEventListener(
+/* Overlay */
+
+if (modalOverlay) {
+
+  modalOverlay.addEventListener(
     "click",
-    closeModal
-);
+    closeProjectModal
+  );
 
-modalOverlay.addEventListener(
-    "click",
-    closeModal
-);
+}
 
 
-/* Close modal with Escape */
+/* Escape key */
 
 document.addEventListener(
-    "keydown",
-    event => {
+  "keydown",
+  (event) => {
 
-        if (
-            event.key === "Escape" &&
-            modal.classList.contains("active")
-        ) {
+    if (
+      event.key === "Escape" &&
+      projectModal.classList.contains("active")
+    ) {
 
-            closeModal();
-
-        }
+      closeProjectModal();
 
     }
+
+  }
 );
 
 
 /* =========================================================
-   FOOTER YEAR
-========================================================= */
+   SMOOTH INTERNAL LINKS
+   ========================================================= */
 
-document.getElementById("year").textContent =
-    new Date().getFullYear();
+document
+  .querySelectorAll('a[href^="#"]')
+  .forEach((link) => {
+
+    link.addEventListener(
+      "click",
+      (event) => {
+
+        const targetId =
+          link.getAttribute("href");
+
+
+        if (
+          !targetId ||
+          targetId === "#"
+        ) {
+          return;
+        }
+
+
+        const target =
+          document.querySelector(
+            targetId
+          );
+
+
+        if (!target) {
+          return;
+        }
+
+
+        event.preventDefault();
+
+
+        const headerHeight =
+          document.querySelector(
+            ".site-header"
+          )?.offsetHeight || 0;
+
+
+        const targetPosition =
+          target.getBoundingClientRect().top +
+          window.scrollY -
+          headerHeight;
+
+
+        window.scrollTo({
+          top: targetPosition,
+          behavior: "smooth"
+        });
+
+      }
+    );
+
+  });
